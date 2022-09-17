@@ -1,15 +1,29 @@
 import axios from "axios";
 
 export const state = () => ({
-  value: "dsd",
-  value1: 23,
   products: [],
   productCategory: [],
+  sizes: [
+    { id: "size-1", name: "Small", extention: "S" },
+    { id: "size-2", name: "Medium", extention: "M" },
+    { id: "size-3", name: "Large", extention: "L" },
+    { id: "size-4", name: "X-Large", extention: "XL" },
+    { id: "size-5", name: "XX-Large", extention: "XXL" },
+  ],
 });
 
 export const getters = {
   getProductCategory(state) {
     return state.productCategory;
+  },
+  getProducts(state) {
+    return state.products;
+  },
+  getProductById: (state) => (id) => {
+    return state.products.find((e) => e.id == id);
+  },
+  getSizes(state) {
+    return state.sizes;
   },
 };
 

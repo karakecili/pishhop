@@ -1,5 +1,5 @@
 <template>
-  <div class="header flex flex-col">
+  <div class="header flex flex-col m-4">
     <div class="header-top flex flex-row">Logo and menu images</div>
     <div class="header-bottom flex flex-row">
       <div class="mr-10" v-for="Category in getProductCategory">
