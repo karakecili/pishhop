@@ -1,9 +1,12 @@
 <template>
-  <Landing/>
+  <div>
+    <Header />
+    <Landing />
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage',
-}
+  name: "StorePage",
+};
 </script>
