@@ -10,6 +10,7 @@ export const state = () => ({
     { id: "size-4", name: "X-Large", extention: "XL" },
     { id: "size-5", name: "XX-Large", extention: "XXL" },
   ],
+  cart: [],
 });
 
 export const getters = {
@@ -33,6 +34,17 @@ export const mutations = {
   },
   setProductCategoryList(state, productCategoryList) {
     state.productCategory = productCategoryList;
+  },
+  addToCart(state, product) {
+    if (
+      state.cart.find((e) => e.id === product.id && e.size === product.size)
+    ) {
+      state.cart.find(
+        (e) => e.id === product.id && e.size === product.size
+      ).count += product.count;
+    } else {
+      state.cart.push(product);
+    }
   },
 };
 
@@ -62,6 +74,9 @@ export const actions = {
     } catch (error) {
       console.log(error);
     }
+  },
+  addToCart({ commit }, payload) {
+    commit("addToCart", payload);
   },
 };
 
