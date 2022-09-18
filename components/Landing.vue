@@ -8,12 +8,12 @@
       class="landing-cart flex flex-row flex-wrap justify-between gap-2 gap-y-7"
     >
       <div
-        class="landing-cart-item flex flex-col w-52 p-5 bg-gray-100 hover:bg-gray-200 cursor-pointer"
+        class="landing-cart-item flex flex-col w-52 p-5 bg-indigo-200 hover:bg-indigo-400 cursor-pointer"
         v-for="Product in getProducts"
         @click.prevent="$router.push('/detail/' + Product.id)"
       >
         <div
-          class="landing-cart-item-image self-center p-5 bg-indigo-200 rounded-lg"
+          class="landing-cart-item-image self-center p-5 bg-white rounded-lg"
         >
           <img :src="Product.image" :alt="Product.description" class="h-40" />
         </div>

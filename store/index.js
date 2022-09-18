@@ -26,6 +26,20 @@ export const getters = {
   getSizes(state) {
     return state.sizes;
   },
+  getCart(state) {
+    return state.cart.map((item) => {
+      return {
+        ...item,
+        total: state.products.find((x) => x.id === item.id).price * item.amount,
+      };
+    });
+  },
+  getSizeById: (state) => (extention) => {
+    return state.sizes.find((e) => e.extention == extention);
+  },
+  getCartById: (state) => (id, size) => {
+    return state.cart.find((e) => e.id == id && e.size == size);
+  },
 };
 
 export const mutations = {
@@ -36,15 +50,24 @@ export const mutations = {
     state.productCategory = productCategoryList;
   },
   addToCart(state, product) {
-    if (
-      state.cart.find((e) => e.id === product.id && e.size === product.size)
-    ) {
-      state.cart.find(
-        (e) => e.id === product.id && e.size === product.size
-      ).count += product.count;
+    let value = state.cart.find(
+      (e) => e.id === product.id && e.size === product.size
+    );
+    if (value) {
+      if (value.amount == 1 && product.amount == -1) {
+        state.cart.splice(state.cart.indexOf(value), 1);
+      } else {
+        value.amount += product.amount;
+      }
     } else {
       state.cart.push(product);
     }
+  },
+  removeFromCart(state, product) {
+    let value = state.cart.find(
+      (e) => e.id === product.id && e.size === product.size
+    );
+    state.cart.splice(state.cart.indexOf(value), 1);
   },
 };
 

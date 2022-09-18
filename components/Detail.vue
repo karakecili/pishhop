@@ -1,16 +1,22 @@
 <template>
-  <div class="detail flex flex-col items-center bg-blue-300 rounded-3xl">
+  <div class="detail flex flex-col items-center rounded-3xl bg-white">
     <div class="detail-top flex flex-row p-6">
       <button
         class="bg-white-500 hover:bg-white-700 text-black font-bold py-2 px-4 rounded"
         @click.prevent="$router.push('/')"
       >
-        Back icon
+        <v-icon large color="blue-grey darken-2"> mdi-arrow-left </v-icon>
       </button>
       <img :src="Product.image" :alt="Product.description" class="h-40" />
-      <button>Heart icon</button>
+      <button>
+        <v-icon large color="blue-grey darken-2">
+          mdi-cards-heart-outline
+        </v-icon>
+      </button>
     </div>
-    <div class="detail-bottom flex flex-col bg-white rounded-3xl p-6 w-full">
+    <div
+      class="detail-bottom flex flex-col bg-green-300 rounded-3xl p-6 w-full"
+    >
       <div class="detail-category text-xl">
         {{ Product.category }}
       </div>
@@ -33,18 +39,18 @@
           ({{ Product.rating.rate }})
         </span>
       </div>
-      <div class="detail-count flex flex-row justify-between my-5">
-        <div class="detail-count-div">
+      <div class="detail-amount flex flex-row justify-between my-5">
+        <div class="detail-amount-div">
           <button
-            class="text-white bg-blue-400 hover:bg-blue-700 rounded-full cursor-pointer px-3 py-1"
-            @click="counterChange('dec')"
+            class="text-white text-xl font-bold bg-blue-400 hover:bg-blue-700 rounded-full cursor-pointer px-3 py-1"
+            @click="amountChange('dec')"
           >
             -
           </button>
-          <span>{{ counter }}</span>
+          <span>{{ amount }}</span>
           <button
-            class="text-white bg-blue-400 hover:bg-blue-700 rounded-full cursor-pointer px-3 py-1"
-            @click="counterChange('inc')"
+            class="text-white text-xl font-bold bg-blue-400 hover:bg-blue-700 rounded-full cursor-pointer px-3 py-1"
+            @click="amountChange('inc')"
           >
             +
           </button>
@@ -95,7 +101,7 @@ export default {
   name: "Detail",
   data() {
     return {
-      counter: 1,
+      amount: 1,
       productSize: "S",
     };
   },
@@ -106,13 +112,13 @@ export default {
     ...mapGetters(["getProductById", "getSizes"]),
   },
   methods: {
-    counterChange(type) {
+    amountChange(type) {
       switch (type) {
         case "inc":
-          this.counter++;
+          this.amount++;
           break;
         case "dec":
-          this.counter = this.counter - 1 || 1;
+          this.amount = this.amount - 1 || 1;
           break;
         default:
           break;
@@ -122,10 +128,10 @@ export default {
       this.$store.dispatch("addToCart", {
         id: this.Product.id,
         size: this.productSize,
-        count: this.counter,
+        amount: this.amount,
       });
 
-      this.counter = 1;
+      this.amount = 1;
       this.productSize = "S";
     },
   },
