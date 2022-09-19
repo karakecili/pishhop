@@ -125,11 +125,27 @@ export default {
       }
     },
     addToCart() {
-      this.$store.dispatch("addToCart", {
-        id: this.Product.id,
-        size: this.productSize,
-        amount: this.amount,
-      });
+      let checkData = this.$store.getters.getCartById(
+        this.Product.id,
+        this.productSize
+      );
+      console.log(checkData);
+      if (checkData) {
+        this.$store.dispatch("updateToCartDB", {
+          data: {
+            id: this.Product.id,
+            size: this.productSize,
+            amount: this.amount + checkData.amount,
+          },
+          key: checkData.key,
+        });
+      } else {
+        this.$store.dispatch("addToCartDB", {
+          id: this.Product.id,
+          size: this.productSize,
+          amount: this.amount,
+        });
+      }
 
       this.amount = 1;
       this.productSize = "S";

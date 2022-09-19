@@ -69,12 +69,23 @@ export const mutations = {
     );
     state.cart.splice(state.cart.indexOf(value), 1);
   },
+  addToCartDB(state, product) {
+    state.cart.push(product);
+  },
+  removeAllFromCart(state) {
+    state.cart = [];
+  },
+  removeFromCartDB(state, key) {
+    let value = state.cart.find((e) => e.key === key);
+    state.cart.splice(state.cart.indexOf(value), 1);
+  },
 };
 
 export const actions = {
   async nuxtServerInit({ dispatch }) {
     await dispatch("getProductList");
     await dispatch("getProductCategoryList");
+    await dispatch("getFromCartDB");
   },
   async getProductList({ commit }) {
     try {
@@ -101,10 +112,60 @@ export const actions = {
   addToCart({ commit }, payload) {
     commit("addToCart", payload);
   },
+  async addToCartDB({ dispatch }, payload) {
+    try {
+      await axios.post("cart.json", payload, fireBaseconfig);
+      dispatch("getFromCartDB");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async updateToCartDB({ dispatch }, payload) {
+    try {
+      await axios.put(
+        "cart/" + payload.key + ".json",
+        payload.data,
+        fireBaseconfig
+      );
+      dispatch("getFromCartDB");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async getFromCartDB({ commit }) {
+    try {
+      commit("removeAllFromCart");
+      const response = await axios.get("cart.json", fireBaseconfig);
+
+      let data = response.data;
+      for (let key in data) {
+        data[key].key = key;
+        commit("addToCartDB", data[key]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async removeFromCartDB({ commit }, key) {
+    try {
+      await axios.delete("cart/" + key + ".json", fireBaseconfig);
+      commit("removeFromCartDB", key);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 const ProductAPIconfig = {
   headers: {
     SHOP_SK: "6mcMzol0XEyQlIjUFnLyxtrLoIdiqjiS",
+  },
+};
+
+const fireBaseconfig = {
+  baseURL:
+    "https://pishop-nuxt-default-rtdb.europe-west1.firebasedatabase.app/",
+  headers: {
+    Accepts: "application/json",
   },
 };

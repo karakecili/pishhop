@@ -55,27 +55,27 @@ export default {
   },
   methods: {
     amountChange(type) {
-      if (type == "inc") {
-        this.$store.commit("addToCart", {
-          id: this.Cart.id,
-          size: this.Cart.size,
-          amount: 1,
-        });
-      } else if (type == "dec" && this.Cart.amount == 1) {
+      if (this.Cart.amount == 1 && type == "dec") {
         this.deleteProduct();
-      } else if (type == "dec") {
-        this.$store.commit("addToCart", {
+        return;
+      }
+
+      this.$store.dispatch("updateToCartDB", {
+        data: {
           id: this.Cart.id,
           size: this.Cart.size,
-          amount: -1,
-        });
-      }
+          amount:
+            type == "inc"
+              ? this.Cart.amount + 1
+              : type == "dec"
+              ? this.Cart.amount - 1
+              : this.Cart.amount,
+        },
+        key: this.Cart.key,
+      });
     },
     deleteProduct() {
-      this.$store.commit("removeFromCart", {
-        id: this.Cart.id,
-        size: this.Cart.size,
-      });
+      this.$store.dispatch("removeFromCartDB", this.Cart.key);
     },
   },
   mounted() {},

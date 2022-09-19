@@ -15,7 +15,7 @@
         :id="item.id"
         :size="item.size"
         :amount="item.amount"
-        :key="`cart_${item.id}_${item.size}`"
+        :key="item.key"
       />
     </div>
     <div class="cart-checkout">
@@ -34,9 +34,11 @@ export default {
   name: "Cart",
   computed: {
     Total() {
-      return this.$store.getters.getCart.reduce(function (total, obj) {
-        return total + obj.total;
-      }, 0);
+      return this.$store.getters.getCart
+        .reduce(function (total, obj) {
+          return total + obj.total;
+        }, 0)
+        .toFixed(2);
     },
     ...mapGetters(["getCart", "getSizes"]),
   },
