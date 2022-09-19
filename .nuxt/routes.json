@@ -1,0 +1,23 @@
+[
+  {
+    "name": "cart",
+    "path": "/cart",
+    "component": "D:\\\\codes\\\\vue.js\\\\pishop\\\\pages\\\\cart.vue",
+    "chunkName": "pages/cart",
+    "_name": "_63f69262"
+  },
+  {
+    "name": "detail-Id",
+    "path": "/detail/:Id",
+    "component": "D:\\\\codes\\\\vue.js\\\\pishop\\\\pages\\\\detail\\\\_Id\\\\index.vue",
+    "chunkName": "pages/detail/_Id/index",
+    "_name": "_17e3dc6a"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "D:\\\\codes\\\\vue.js\\\\pishop\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_3eb07a00"
+  }
+]
